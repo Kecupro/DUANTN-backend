@@ -100,7 +100,11 @@ const uploadNew = multer({ storage: storageNew });
 // });
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/DATN_V2');
+
+// Lấy URI từ biến môi trường, nếu không có thì dùng local
+const MONGODB_URI = process.env.DB_URI || 'mongodb://127.0.0.1:27017/DATN_V2';
+
+mongoose.connect(MONGODB_URI);
 const bcrypt = require('bcrypt');
 const path = require('path');
 const fs = require('fs');
@@ -109,7 +113,7 @@ const passport = require('passport');
 require('./auth/google'); // import cấu hình passport google
 require('./auth/facebook'); // import cấu hình passport facebook
 const ObjectId = mongoose.Types.ObjectId;
-const conn = mongoose.createConnection('mongodb://127.0.0.1:27017/DATN_V2');
+const conn = mongoose.createConnection(MONGODB_URI);
 const newsSchema = require("./model/schemaNews");
 const categoryNewsSchema = require("./model/schemaCategoryNews");
 const userSchema = require("./model/schemaUser");
