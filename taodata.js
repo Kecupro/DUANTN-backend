@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const conn = mongoose.createConnection("mongodb://127.0.0.1:27017/DATN_V2");
+const conn = mongoose.createConnection("mongodb+srv://root:123@cluster0.2ceby11.mongodb.net/DATN_V3?retryWrites=true&w=majority&appName=Cluster0");
 const newsSchema = require("./model/schemaNews");
 const categoryNewsSchema = require("./model/schemaCategoryNews");
 const userSchema = require("./model/schemaUser");

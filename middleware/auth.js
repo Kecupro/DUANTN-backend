@@ -7,6 +7,8 @@ const verifyToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // Đảm bảo role là string, loại bỏ khoảng trắng/thừa
+    decoded.role = decoded.role ? decoded.role.toString().trim() : "0";
     req.user = decoded; // { id, role }
     next();
   } catch (err) {
@@ -14,12 +16,33 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-// Phân quyền admin
+// Phân quyền admin (role 1 hoặc 2)
 const isAdmin = (req, res, next) => {
-  if (req.user.role !== "1") {
+  const role = req.user.role ? req.user.role.toString().trim() : "0";
+  if (role !== "1" && role !== "2") {
     return res.status(403).json({ message: "Không có quyền admin" });
   }
   next();
 };
 
-module.exports = { verifyToken, isAdmin };
+// Phân quyền super admin (chỉ role 2)
+const isSuperAdmin = (req, res, next) => {
+  const role = req.user.role ? req.user.role.toString().trim() : "0";
+  if (role !== "2") {
+    return res.status(403).json({ message: "Chỉ Super Admin mới có quyền này" });
+  }
+  next();
+};
+
+// Kiểm tra quyền xóa user (chỉ super admin mới xóa được admin)
+const canDeleteUser = (req, res, next) => {
+  const role = req.user.role ? req.user.role.toString().trim() : "0";
+  // Super admin có thể xóa tất cả
+  if (role === "2") {
+    return next();
+  }
+  // Admin thường không thể xóa ai cả
+  return res.status(403).json({ message: "Chỉ Super Admin mới có quyền xóa người dùng" });
+};
+
+module.exports = { verifyToken, isAdmin, isSuperAdmin, canDeleteUser };

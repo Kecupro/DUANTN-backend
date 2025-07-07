@@ -102,7 +102,7 @@ const uploadNew = multer({ storage: storageNew });
 const mongoose = require('mongoose');
 
 // Lấy URI từ biến môi trường, nếu không có thì dùng local
-const MONGODB_URI = process.env.DB_URI || 'mongodb://127.0.0.1:27017/DATN_V2';
+const MONGODB_URI = process.env.DB_URI || 'mongodb+srv://root:123@cluster0.2ceby11.mongodb.net/DATN_V3?retryWrites=true&w=majority&appName=Cluster0';
 
 mongoose.connect(MONGODB_URI);
 const bcrypt = require('bcrypt');
