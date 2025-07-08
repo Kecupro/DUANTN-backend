@@ -4055,3 +4055,5 @@ app.get("/reviews/user", verifyToken, async (req, res) => {
   });
 
 app.listen(port, () => console.log(`Ung dung dang chay voi port ${port}`));
+
+console.log("CORS config loaded! Allowed origins:", allowedOrigins);
