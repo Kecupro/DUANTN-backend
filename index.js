@@ -104,7 +104,15 @@ const mongoose = require('mongoose');
 // Lấy URI từ biến môi trường, nếu không có thì dùng local
 const MONGODB_URI = process.env.DB_URI || 'mongodb://127.0.0.1:27017/DATN_V2';
 
-mongoose.connect(MONGODB_URI);
+// Thêm SSL options cho MongoDB Atlas
+const mongooseOptions = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  ssl: false,
+  tls: false
+};
+
+mongoose.connect(MONGODB_URI, mongooseOptions);
 const bcrypt = require('bcrypt');
 const path = require('path');
 const fs = require('fs');
@@ -113,7 +121,7 @@ const passport = require('passport');
 require('./auth/google'); // import cấu hình passport google
 require('./auth/facebook'); // import cấu hình passport facebook
 const ObjectId = mongoose.Types.ObjectId;
-const conn = mongoose.createConnection(MONGODB_URI);
+const conn = mongoose.createConnection(MONGODB_URI, mongooseOptions);
 const newsSchema = require("./model/schemaNews");
 const categoryNewsSchema = require("./model/schemaCategoryNews");
 const userSchema = require("./model/schemaUser");
