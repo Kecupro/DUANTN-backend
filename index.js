@@ -6,9 +6,23 @@ const cors = require('cors');
 const multer = require('multer');
 //app.use( [ cors() , exp.json() ] );
 app.use( exp.json() );
+
+const allowedOrigins = [
+  'http://localhost:3005',
+  'https://duantn-frontend-2.vercel.app'
+];
+
 app.use(cors({
-    origin: "http://localhost:3005", 
-    credentials: true 
+  origin: function(origin, callback){
+    // Cho phép request không có origin (như từ Postman)
+    if(!origin) return callback(null, true);
+    if(allowedOrigins.indexOf(origin) === -1){
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
+  credentials: true // nếu bạn dùng cookie
 }));
 
 // ! Lưu ảnh danh mục sản phẩm
