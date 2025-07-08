@@ -4,6 +4,13 @@ const User = require('../model/User');
 const bcrypt = require('bcrypt');
 require('dotenv').config();
 
+// Debug: Kiểm tra biến môi trường
+console.log('=== DEBUG GOOGLE OAUTH ===');
+console.log('GOOGLE_CLIENT_ID:', process.env.GOOGLE_CLIENT_ID);
+console.log('GOOGLE_CLIENT_SECRET:', process.env.GOOGLE_CLIENT_SECRET);
+console.log('GOOGLE_CLIENT_ID length:', process.env.GOOGLE_CLIENT_ID ? process.env.GOOGLE_CLIENT_ID.length : 'undefined');
+console.log('=== END DEBUG ===');
+
 passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLIENT_ID,
     clientSecret: process.env.GOOGLE_CLIENT_SECRET,
